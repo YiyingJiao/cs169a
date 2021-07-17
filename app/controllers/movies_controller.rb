@@ -7,7 +7,39 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @movies = Movie.all
+    @all_ratings=Movie.all_ratings
+    @ratings_to_show = []
+    @ratings_forsession={}
+    if params['ratings'] != nil
+      session['ratings']=params['ratings']
+    end
+    if session['ratings']!= nil 
+      ratings = session['ratings'].keys
+    end
+    if ratings != nil
+      @ratings_forsession = session['ratings']
+      @ratings_to_show = ratings
+    end
+    @movies = Movie.with_ratings(ratings)
+      
+    if params['sort_option'] != nil
+      session['sort_option'] = params['sort_option']
+    @sort_option = session['sort_option']
+    end
+    if @sort_option != nil
+      @movies=@movies.sort_by{ |list|
+        list[@sort_option]
+      }
+    end
+  end
+  
+    
+    
+    @ratings_to_show=[]
+    if ratings != nil
+      @ratings_to_show = ratings_to_show
+      @ratings_hash = session['ratings']
+    end
   end
 
   def new
