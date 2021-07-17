@@ -32,15 +32,6 @@ class MoviesController < ApplicationController
       }
     end
   end
-  
-    
-    
-    @ratings_to_show=[]
-    if ratings != nil
-      @ratings_to_show = ratings_to_show
-      @ratings_hash = session['ratings']
-    end
-  end
 
   def new
     # default: render 'new' template
